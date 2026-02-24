@@ -57,6 +57,7 @@ An intelligent career guidance platform that predicts career success, validates 
 - **Routing:** React Router v7
 - **Forms:** React Hook Form
 - **Notifications:** Sonner
+- **Sign-up:** Using Gmail and other valid email id
 
 ## 📁 Project Structure
 
