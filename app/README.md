@@ -1,290 +1,320 @@
-# Career Success & Recommendation Platform
+🚀 CareerCraftAI – Intelligent Career Guidance & AI Recommendation Platform
 
-An intelligent career guidance platform that predicts career success, validates resumes, and recommends learning paths and jobs using AI, Machine Learning, and NLP.
+CareerCraftAI is a full-stack AI-powered career guidance platform that analyzes resumes, predicts career success, provides personalized learning and job recommendations, and delivers real-time insights through an intelligent dashboard and AI chatbot.
 
-![Platform Preview](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
-![Tech Stack](https://img.shields.io/badge/Stack-FastAPI%2BReact%2BMongoDB-blue)
+The platform integrates Machine Learning, NLP, secure authentication, and external data sources to create a production-ready career assistance system.
 
-## 🎯 Features
+🧠 Core Features
+1️⃣ Career Success Predictor (Machine Learning)
 
-### 1. **Career Success Predictor (ML)**
-- **Algorithm:** RandomForestClassifier (scikit-learn)
-- **Input:** Age, education, experience, skills, location, job changes
-- **Output:** Success probability (0-100%), top 3 key factors, personalized recommendations
-- **Accuracy:** 86% on test data
+Model: RandomForestClassifier (scikit-learn)
 
-### 2. **Resume & Personality Validator (NLP)**
-- **Technologies:** NLTK, TextBlob
-- **Capabilities:**
-  - Skills extraction via regex pattern matching
-  - Sentiment analysis (positive/neutral/negative)
-  - Bias detection (gendered language flagging)
-  - Readability scoring (Flesch Reading Ease)
-  - ATS compatibility score (keyword density analysis)
-- **Output:** JSON with sentiment, readability, ATS score, improvement tips
+Predicts career success probability based on:
 
-### 3. **Learning & Job Recommendation Engine**
-- **Algorithm:** TF-IDF vectorization + cosine similarity
-- **Features:**
-  - Job matching based on user skills
-  - Personalized course recommendations (Udemy, Coursera)
-  - Budget filtering
-  - Skill gap analysis
-  - Custom learning paths with timeline estimates
+Education
 
-### 4. **Analytics Dashboard**
-- Summary statistics (predictions made, resumes analyzed)
-- Salary trends visualization (Bar charts)
-- Top skills demand (Pie charts)
-- Gamification (badges, progress levels)
-- Industry insights
+Experience
 
-## 🚀 Tech Stack
+Skills
 
-### Backend
-- **Framework:** FastAPI
-- **ML/NLP:** scikit-learn, NLTK, TextBlob, Pandas, NumPy
-- **Database:** MongoDB (Motor async driver)
-- **Authentication:** JWT (bcrypt password hashing)
-- **Model Storage:** joblib
+Career transitions
 
-### Frontend
-- **Framework:** React 19
-- **UI Library:** Shadcn UI (Radix UI components)
-- **Styling:** Tailwind CSS
-- **Charts:** Recharts
-- **HTTP Client:** Axios
-- **Routing:** React Router v7
-- **Forms:** React Hook Form
-- **Notifications:** Sonner
+Profile attributes
 
-## 📁 Project Structure
+Provides:
 
-```
-/app/
+Success score (0–100%)
+
+Key influencing factors
+
+Personalized recommendations
+
+Designed for nonlinear real-world career data using ensemble learning.
+
+2️⃣ AI Resume Validator (NLP + ML)
+
+An intelligent resume analysis system that processes PDF resumes and generates structured feedback.
+
+Capabilities:
+
+PDF Resume Parsing (PyPDF2)
+
+Skill Extraction using NLP patterns
+
+ATS Compatibility Scoring
+
+Readability Analysis
+
+Sentiment Analysis
+
+AI-based Resume Score using Random Forest
+
+Automated Improvement Suggestions
+
+Resume Analysis Pipeline:
+Resume Upload → Text Extraction → NLP Feature Engineering → Random Forest Scoring → AI Feedback
+3️⃣ Intelligent Course & Learning Recommendation System
+
+Skill-based recommendation engine
+
+Personalized course suggestions aligned with detected skills
+
+Dynamic learning path generation
+
+Skill gap analysis with timeline estimation
+
+Context-aware recommendations based on user profile and resume analysis
+
+4️⃣ AI Chatbot (Career Assistant)
+
+Integrated AI chatbot that provides:
+
+Career guidance
+
+Skill improvement suggestions
+
+Resume-related queries support
+
+Learning path advice
+
+Contextual assistance based on user profile data
+
+This enhances user engagement and transforms the platform into an interactive AI career mentor.
+
+5️⃣ Secure Authentication System (JWT + MongoDB)
+
+Email & Password based authentication
+
+JWT (JSON Web Token) authorization
+
+Password hashing using bcrypt
+
+Secure session handling
+
+User data stored in MongoDB (Motor async driver)
+
+Protected API routes with token validation
+
+6️⃣ AI Analytics Dashboard (Real Insights)
+
+Dynamic dashboard that displays:
+
+Resume strength insights
+
+Job readiness score
+
+Skills intelligence overview
+
+Learning progress indicators
+
+Personalized career analytics
+
+Historical resume analysis (stored in database)
+
+All insights are generated from real user data, not static placeholders.
+
+🏗️ System Architecture
+Frontend (React + Tailwind)
+↓
+FastAPI Backend (REST APIs)
+↓
+NLP Layer (Resume Parsing & Skill Extraction)
+↓
+ML Layer (Random Forest Models)
+↓
+Recommendation Engine + Chatbot Logic
+↓
+MongoDB Database (User, Auth, Analytics)
+🛠️ Tech Stack
+🔙 Backend
+
+FastAPI (Async Python Framework)
+
+scikit-learn (Machine Learning Models)
+
+NLTK & TextBlob (Natural Language Processing)
+
+PyPDF2 (PDF Resume Parsing)
+
+MongoDB (Motor Async Driver)
+
+JWT Authentication (python-jose)
+
+bcrypt (Password Hashing)
+
+Joblib (Model Persistence)
+
+Pydantic (Data Validation)
+
+🎨 Frontend
+
+React (Vite)
+
+Tailwind CSS (Modern UI Styling)
+
+Shadcn UI Components
+
+Axios (API Integration)
+
+React Router (Navigation)
+
+Recharts (Analytics Visualization)
+
+🔐 Authentication & Security
+
+JWT-based secure authentication
+
+Encrypted password storage (bcrypt hashing)
+
+Token-protected API endpoints
+
+CORS configured for secure cross-origin requests
+
+Environment-based secret management (.env)
+
+MongoDB secure user data storage
+
+📁 Project Structure
+CareerCraftAI/
 ├── backend/
-│   ├── server.py                    # FastAPI main application
-│   ├── ml_model.py                  # ML prediction logic
-│   ├── nlp_utils.py                 # NLP analysis utilities
-│   ├── recommendation_engine.py     # Job/course recommendations
-│   ├── train_model.py               # Model training script
-│   ├── requirements.txt             # Python dependencies
-│   ├── .env                         # Environment variables
-│   ├── data/
-│   │   └── career_data.csv          # Synthetic training dataset
-│   └── models/
-│       └── career_model.joblib      # Trained ML model
+│ ├── server.py # FastAPI application entry point
+│ ├── ml_model.py # Random Forest ML models
+│ ├── nlp_utils.py # NLP & resume parsing utilities
+│ ├── recommendation_engine.py # Recommendation logic
+│ ├── models/ # Saved ML models
+│ ├── data/ # Training datasets
+│ ├── requirements.txt
+│ └── .env
 │
 └── frontend/
-    ├── public/                      # Static assets
-    ├── src/
-    │   ├── App.js                   # Main React component
-    │   ├── App.css                  # Global styles
-    │   ├── components/
-    │   │   ├── Navbar.jsx           # Navigation component
-    │   │   └── ui/                  # Shadcn UI components
-    │   └── pages/
-    │       ├── Login.jsx            # Auth page (login/signup)
-    │       ├── Home.jsx             # Landing page
-    │       ├── CareerPredictor.jsx  # ML prediction page
-    │       ├── ResumeValidator.jsx  # NLP analysis page
-    │       ├── JobRecommendations.jsx # Jobs & learning page
-    │       └── Dashboard.jsx         # Analytics page
-    ├── package.json                 # Node dependencies
-    ├── tailwind.config.js           # Tailwind configuration
-    └── .env                         # Environment variables
-```
+├── src/
+│ ├── pages/
+│ │ ├── Dashboard.jsx
+│ │ ├── ResumeValidator.jsx
+│ │ ├── CareerPredictor.jsx
+│ │ ├── JobsLearning.jsx
+│ │ └── Login.jsx
+│ ├── components/
+│ └── services/
+├── package.json
+└── .env
+📊 API Endpoints
+Authentication
 
-## 🛠️ Setup Instructions
+POST /api/auth/signup – User registration (Email & Password)
 
-### Prerequisites
-- Python 3.11+
-- Node.js 18+
-- MongoDB
-- pip & yarn
+POST /api/auth/login – User login (JWT token generation)
 
-### Backend Setup
+Core AI Features
 
-1. **Install Python dependencies:**
-   ```bash
-   cd /app/backend
-   pip install -r requirements.txt
-   ```
+POST /api/analyze_resume – Resume analysis + AI scoring + recommendations
 
-2. **Download NLTK data (automatic on first run):**
-   ```python
-   import nltk
-   nltk.download('punkt')
-   nltk.download('stopwords')
-   ```
+POST /api/predict – Career success prediction
 
-3. **Train the ML model:**
-   ```bash
-   python train_model.py
-   ```
-   This creates:
-   - `data/career_data.csv` (1000 synthetic samples)
-   - `models/career_model.joblib` (trained model with 86% accuracy)
+GET /api/dashboard – AI-driven dashboard insights
 
-4. **Configure environment variables (.env):**
-   ```env
-   MONGO_URL=mongodb://localhost:27017
-   DB_NAME=career_platform
-   JWT_SECRET_KEY=your-secret-key-here
-   CORS_ORIGINS=*
-   ```
+POST /api/recommend_jobs – Job recommendations
 
-5. **Run the backend:**
-   ```bash
-   uvicorn server:app --host 0.0.0.0 --port 8001 --reload
-   ```
+POST /api/learning_path – Personalized learning roadmap
 
-### Frontend Setup
+POST /api/chat – AI chatbot interaction
 
-1. **Install Node dependencies:**
-   ```bash
-   cd /app/frontend
-   yarn install
-   ```
+All protected routes require JWT token in Authorization header.
 
-2. **Configure environment variables (.env):**
-   ```env
-   REACT_APP_BACKEND_URL=http://localhost:8001
-   ```
+🤖 Machine Learning Methodology
+Resume Scoring Model
 
-3. **Run the frontend:**
-   ```bash
-   yarn start
-   ```
+Model: RandomForestRegressor
 
-4. **Build for production:**
-   ```bash
-   yarn build
-   ```
+Inputs: Resume-derived NLP features
 
-### Kubernetes/Docker Deployment (Emergent Platform)
+Output: Resume Score (0–100)
 
-The application is pre-configured for the Emergent platform:
-- Backend runs on port 8001 (supervisor managed)
-- Frontend runs on port 3000 (supervisor managed)
-- All API routes use `/api` prefix for Kubernetes ingress
-- Environment variables are pre-configured
+Advantage: Robust handling of nonlinear and noisy resume data.
 
-**Restart services:**
-```bash
-sudo supervisorctl restart backend
-sudo supervisorctl restart frontend
-```
+Career Prediction Model
 
-## 📊 API Endpoints
+Model: RandomForestClassifier
 
-### Authentication
-- `POST /api/auth/signup` - Create new account
-- `POST /api/auth/login` - Login to account
+Ensemble-based prediction for higher accuracy and stability
 
-### Core Features
-- `POST /api/predict` - Generate career success prediction
-- `POST /api/analyze_resume` - Analyze resume text
-- `POST /api/recommend_jobs` - Get job recommendations
-- `POST /api/learning_path` - Generate personalized learning path
-- `GET /api/dashboard` - Fetch dashboard analytics
+Feature importance used for explainable AI insights.
 
-All endpoints (except auth) require JWT Bearer token in `Authorization` header.
+🧪 Key Functional Testing
 
-## 🎨 Design System
+User authentication (JWT + MongoDB)
 
-### Color Palette
-- **Primary:** Blue gradient (#1e40af to #3b82f6)
-- **Secondary:** Cyan (#06b6d4)
-- **Background:** Light gray gradient (#f5f7fa to #e8eef5)
-- **Text:** Slate (#1e293b)
+Resume PDF parsing & analysis
 
-### Typography
-- **Headings:** Space Grotesk (500-700)
-- **Body:** Inter (300-700)
+ML model predictions
 
-## 💡 Algorithms & Methodology
+Chatbot interaction
 
-### 1. Career Success Prediction
-```python
-# Features: age, experience_years, education_level, num_skills, location_tier, job_changes
-# Algorithm: RandomForestClassifier (100 estimators, max_depth=10)
-# Success Score = weighted combination of features + normalized to 0-1
-```
+Skill extraction accuracy
 
-### 2. Resume Analysis
-```python
-# Skills Extraction: Regex pattern matching against common skills list
-# Sentiment Analysis: TextBlob polarity score (-1 to +1)
-# Readability: Flesch Reading Ease formula (0-100)
-# ATS Score: Keyword density + skill count + action verbs
-# Bias Detection: Regex search for gendered words
-```
+Dashboard analytics rendering
 
-### 3. Job/Course Matching
-```python
-# TF-IDF Vectorization: Convert skills to numerical vectors
-# Cosine Similarity: Calculate similarity between user profile and jobs/courses
-# Top N Recommendations: Sort by similarity score (0-100%)
-```
+API integration & routing
 
-## 📈 Dataset
+End-to-end frontend-backend communication
 
-**Synthetic Career Dataset (1000 samples)**
-- **Features:** age (22-55), experience_years (0-25), education_level (1-4), num_skills (2-15), location_tier (1-3), job_changes (0-8)
-- **Target:** Binary success label based on weighted feature combination
-- **Split:** 80% training, 20% testing
+⚙️ Setup Instructions
+Prerequisites
 
-## 🔐 Security
+Python 3.10+
 
-- Passwords hashed with bcrypt (salt rounds: 12)
-- JWT tokens with 24-hour expiration
-- CORS configured for specific origins
-- MongoDB connection string stored in environment variables
-- No sensitive data in version control
+Node.js 18+
 
-## 🧪 Testing
+MongoDB (Local or Cloud)
 
-Manual testing completed for:
-- ✅ User authentication (signup/login)
-- ✅ Career prediction with ML model
-- ✅ Resume analysis with NLP
-- ✅ Job recommendations (TF-IDF)
-- ✅ Learning path generation
-- ✅ Dashboard analytics
-- ✅ Navigation and routing
-- ✅ Responsive design
+Backend Setup
+cd backend
+pip install -r requirements.txt
+uvicorn server:app --reload
+Frontend Setup
+cd frontend
+npm install
+npm run dev
 
-## 📝 Future Enhancements
+Frontend: http://localhost:3000
 
-- [ ] PDF resume upload support (PyPDF2/pdfplumber)
-- [ ] Real-time job market data integration
-- [ ] Advanced recommendation algorithms (Neural Collaborative Filtering)
-- [ ] User profile customization
-- [ ] Email notifications
-- [ ] Social login (Google, LinkedIn)
-- [ ] Mobile app (React Native)
+Backend: http://localhost:8000
 
-## 🤝 Contributing
+💾 Environment Variables
+Backend (.env)
+MONGO_URL=your_mongodb_connection
+DB_NAME=careercraft
+JWT_SECRET_KEY=your_secret_key
+Frontend (.env)
+VITE_BACKEND_URL=http://localhost:8000
+🚀 Future Enhancements
 
-This is a demonstration project. For production use, consider:
-1. Replacing synthetic data with real career datasets
-2. Fine-tuning ML model hyperparameters
-3. Expanding NLP analysis (entity recognition, resume parsing)
-4. Adding comprehensive unit tests
-5. Implementing rate limiting and API authentication
+Advanced LLM-based career mentor
 
-## 📄 License
+Real-time job market analytics
 
-MIT License - Feel free to use this project as a template for your own applications.
+Resume auto-optimization using AI
 
-## 🙋 Support
+Skill trend prediction models
 
-For issues or questions:
-- Check backend logs: `/var/log/supervisor/backend.*.log`
-- Check frontend logs: Browser console
-- MongoDB connection: Verify `MONGO_URL` in `.env`
+Mobile application (React Native)
 
----
+Multi-language resume analysis
 
-**Built with ❤️ using FastAPI, React, and AI/ML**
+👨‍💻 Author
+
+Utkarsh Tiwari & Sahil Vishwakarma
+AI/ML & Full Stack Developer
+Project: CareerCraftAI – Intelligent Career Guidance Platform
+
+⭐ Project Significance
+
+This project demonstrates a production-level integration of:
+
+Machine Learning (Random Forest)
+
+Natural Language Processing
+
+Secure Authentication (JWT + MongoDB)
+
+Full-Stack Development (React + FastAPI)
