@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { axiosInstance } from '@/App';
 import { toast } from 'sonner';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
+  ResponsiveContainer, PieChart, Pie, Cell
+} from 'recharts';
 import { TrendingUp, Award, Activity, Target } from 'lucide-react';
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [analytics, setAnalytics] = useState(null);
 
-  useEffect(() => {
-    fetchDashboard();
-  }, []);
+  // ── ORIGINAL LOGIC UNTOUCHED ──────────────────────────────────────────────
+  useEffect(() => { fetchDashboard(); }, []);
 
   const fetchDashboard = async () => {
     try {
@@ -25,203 +25,196 @@ const Dashboard = () => {
     }
   };
 
-  const COLORS = ['#1e40af', '#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe'];
+  const COLORS = ['#63ebda', '#a78bfa', '#fbbf24', '#34d399', '#f87171'];
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin h-12 w-12 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
+  // ── UI ────────────────────────────────────────────────────────────────────
+
+  if (loading) return (
+    <div style={{minHeight:'100vh',background:'#080c10',display:'flex',alignItems:'center',justifyContent:'center',paddingTop:'80px'}}>
+      <div style={{textAlign:'center'}}>
+        <div style={{
+          width:'48px',height:'48px',borderRadius:'14px',
+          background:'rgba(99,235,218,0.1)',border:'1px solid rgba(99,235,218,0.25)',
+          display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 16px'
+        }}>
+          <div style={{width:'20px',height:'20px',border:'2px solid #63ebda',borderTopColor:'transparent',borderRadius:'50%',animation:'spin 0.8s linear infinite'}}/>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen py-8 px-4">
-      <div className="max-w-7xl mx-auto" data-testid="dashboard-page">
-        <div className="mb-8 fade-in">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4 gradient-text">Dashboard</h1>
-          <p className="text-lg text-gray-600">Your career insights and analytics</p>
-        </div>
-
-        {/* Stats Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="glass-card" data-testid="predictions-stat">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">Predictions Made</p>
-                  <p className="text-3xl font-bold text-blue-600">{analytics?.predictions_made || 0}</p>
-                </div>
-                <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                  <TrendingUp className="h-6 w-6 text-blue-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="glass-card" data-testid="analyses-stat">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">Resumes Analyzed</p>
-                  <p className="text-3xl font-bold text-green-600">{analytics?.resumes_analyzed || 0}</p>
-                </div>
-                <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-                  <Activity className="h-6 w-6 text-green-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="glass-card" data-testid="level-stat">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">User Level</p>
-                  <p className="text-3xl font-bold text-purple-600">{analytics?.user_level}</p>
-                </div>
-                <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                  <Target className="h-6 w-6 text-purple-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="glass-card" data-testid="badges-stat">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">Badges Earned</p>
-                  <p className="text-3xl font-bold text-orange-600">{analytics?.badges?.length || 0}</p>
-                </div>
-                <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center">
-                  <Award className="h-6 w-6 text-orange-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Badges */}
-        {analytics?.badges && analytics.badges.length > 0 && (
-          <Card className="glass-card mb-8 fade-in" data-testid="badges-card">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Award className="h-5 w-5 text-blue-600" />
-                Your Badges
-              </CardTitle>
-              <CardDescription>Achievements unlocked</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-3">
-                {analytics.badges.map((badge, idx) => (
-                  <Badge key={idx} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 text-sm" data-testid={`badge-${idx}`}>
-                    <Award className="h-4 w-4 mr-2" />
-                    {badge}
-                  </Badge>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Salary Trends */}
-          <Card className="glass-card fade-in" data-testid="salary-trends-card">
-            <CardHeader>
-              <CardTitle>Average Salary by Role</CardTitle>
-              <CardDescription>Industry salary trends</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={analytics?.salary_trends || []}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis dataKey="role" tick={{ fontSize: 12 }} angle={-15} textAnchor="end" height={80} />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'white',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px',
-                    }}
-                    formatter={(value) => `$${value.toLocaleString()}`}
-                  />
-                  <Bar dataKey="avg_salary" fill="#3b82f6" radius={[8, 8, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-
-          {/* Top Skills Demand */}
-          <Card className="glass-card fade-in" data-testid="skills-demand-card">
-            <CardHeader>
-              <CardTitle>Top Skills in Demand</CardTitle>
-              <CardDescription>Market demand percentage</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={analytics?.top_skills || []}
-                    dataKey="demand"
-                    nameKey="skill"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    label={({ skill, demand }) => `${skill}: ${demand}%`}
-                  >
-                    {(analytics?.top_skills || []).map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'white',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px',
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Skills Detail List */}
-        <Card className="glass-card mt-8 fade-in" data-testid="skills-detail-card">
-          <CardHeader>
-            <CardTitle>Skills Demand Details</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {analytics?.top_skills?.map((skill, idx) => (
-                <div key={idx} className="flex items-center justify-between" data-testid={`skill-detail-${idx}`}>
-                  <div className="flex items-center gap-3 flex-1">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }}></div>
-                    <span className="font-medium">{skill.skill}</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-48 bg-gray-200 rounded-full h-2">
-                      <div
-                        className="h-2 rounded-full"
-                        style={{
-                          width: `${skill.demand}%`,
-                          backgroundColor: COLORS[idx % COLORS.length],
-                        }}
-                      ></div>
-                    </div>
-                    <span className="text-sm font-semibold text-gray-700 w-12 text-right">{skill.demand}%</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <p style={{color:'#8b949e',fontSize:'14px',fontFamily:'DM Sans,sans-serif'}}>Loading your dashboard...</p>
+        <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
       </div>
     </div>
+  );
+
+  const metrics = [
+    { label: 'Predictions Made', value: analytics?.predictions_made || 0, icon: TrendingUp, color: '#63ebda', bg: 'rgba(99,235,218,0.1)', border: 'rgba(99,235,218,0.2)', badge: '+3 this week', testid: 'predictions-stat' },
+    { label: 'Resumes Analyzed', value: analytics?.resumes_analyzed || 0, icon: Activity, color: '#a78bfa', bg: 'rgba(167,139,250,0.1)', border: 'rgba(167,139,250,0.2)', badge: 'NLP powered', testid: 'analyses-stat' },
+    { label: 'User Level', value: analytics?.user_level, icon: Target, color: '#fbbf24', bg: 'rgba(251,191,36,0.1)', border: 'rgba(251,191,36,0.2)', badge: 'Keep going!', testid: 'level-stat' },
+    { label: 'Badges Earned', value: analytics?.badges?.length || 0, icon: Award, color: '#34d399', bg: 'rgba(52,211,153,0.1)', border: 'rgba(52,211,153,0.2)', badge: 'Top 20%', testid: 'badges-stat' },
+  ];
+
+  const customTooltipStyle = {
+    background: '#161b22', border: '1px solid rgba(255,255,255,0.1)',
+    borderRadius: '10px', color: '#f0f6fc', fontSize: '13px',
+    fontFamily: 'DM Sans, sans-serif',
+  };
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
+        .dash-root { min-height:100vh; background:#080c10; padding-top:96px; padding-bottom:64px; position:relative; overflow:hidden; font-family:'DM Sans',sans-serif; }
+        .dash-glow { position:absolute; top:0; left:50%; transform:translateX(-50%); width:700px; height:300px; background:radial-gradient(ellipse,rgba(99,235,218,0.06) 0%,transparent 70%); pointer-events:none; }
+        .dash-inner { max-width:1280px; margin:0 auto; padding:0 24px; position:relative; z-index:10; }
+        .dash-badge { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:999px; background:rgba(99,235,218,0.1); border:1px solid rgba(99,235,218,0.2); color:#63ebda; font-size:12px; font-weight:500; margin-bottom:14px; }
+        .dash-badge-dot { width:6px; height:6px; border-radius:50%; background:#63ebda; animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        .dash-title { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(28px,4vw,40px); color:#fff; margin-bottom:6px; }
+        .dash-sub { color:#8b949e; font-size:14px; margin-bottom:32px; }
+        .dash-metrics { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:24px; }
+        @media(min-width:1024px){ .dash-metrics{grid-template-columns:repeat(4,1fr);} }
+        .dash-metric { border-radius:18px; padding:20px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.07); transition:all 0.3s; }
+        .dash-metric:hover { border-color:rgba(99,235,218,0.2); transform:translateY(-3px); box-shadow:0 16px 48px rgba(0,0,0,0.3); }
+        .dash-metric-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; }
+        .dash-metric-icon { width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; }
+        .dash-metric-badge { font-size:10px; padding:3px 8px; border-radius:999px; background:rgba(52,211,153,0.12); color:#34d399; font-weight:500; white-space:nowrap; }
+        .dash-metric-val { font-family:'Syne',sans-serif; font-weight:700; font-size:26px; color:#fff; margin-bottom:3px; }
+        .dash-metric-lbl { color:#8b949e; font-size:12px; }
+        .dash-charts { display:grid; gap:20px; margin-bottom:20px; }
+        @media(min-width:1024px){ .dash-charts{grid-template-columns:3fr 2fr;} }
+        .dash-card { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:24px; }
+        .dash-card-title { font-family:'Syne',sans-serif; font-weight:700; font-size:16px; color:#fff; margin-bottom:4px; }
+        .dash-card-sub { color:#8b949e; font-size:12px; margin-bottom:22px; }
+        .dash-skill-row { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+        .dash-skill-num { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
+        .dash-skill-name { color:#f0f6fc; font-size:13px; font-weight:500; flex:1; }
+        .dash-skill-pct { color:#8b949e; font-size:12px; width:32px; text-align:right; flex-shrink:0; }
+        .dash-skill-bar-bg { height:5px; background:rgba(255,255,255,0.06); border-radius:999px; flex:1; overflow:hidden; }
+        .dash-skill-bar { height:100%; border-radius:999px; transition:width 1s cubic-bezier(0.4,0,0.2,1); }
+        .dash-badges { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:24px; }
+        .dash-badge-item { display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:999px; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.2); margin-right:10px; margin-bottom:10px; }
+        .dash-badge-text { font-size:13px; color:#fbbf24; font-weight:500; }
+        .dash-badge-empty { display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:999px; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.12); }
+        .dash-badge-empty-text { font-size:13px; color:#484f58; }
+      `}</style>
+
+      <div className="dash-root">
+        <div className="dash-glow"/>
+        <div className="dash-inner">
+
+          {/* Header */}
+          <div>
+            <div className="dash-badge">
+              <span className="dash-badge-dot"/>
+              Live Analytics
+            </div>
+            <h1 className="dash-title">Career Dashboard</h1>
+            <p className="dash-sub">Your career intelligence at a glance</p>
+          </div>
+
+          {/* Metric Cards */}
+          <div className="dash-metrics" data-testid="dashboard-page">
+            {metrics.map((m, i) => {
+              const Icon = m.icon;
+              return (
+                <div key={i} className="dash-metric" data-testid={m.testid}>
+                  <div className="dash-metric-top">
+                    <div className="dash-metric-icon" style={{background:m.bg, border:`1px solid ${m.border}`}}>
+                      <Icon size={16} color={m.color}/>
+                    </div>
+                    <span className="dash-metric-badge">{m.badge}</span>
+                  </div>
+                  <div className="dash-metric-val" style={{color:m.color}}>{m.value}</div>
+                  <div className="dash-metric-lbl">{m.label}</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Charts */}
+          <div className="dash-charts">
+            {/* Salary Bar Chart */}
+            <div className="dash-card" data-testid="salary-trends-card">
+              <div className="dash-card-title">Average Salary by Role</div>
+              <div className="dash-card-sub">Industry salary benchmarks</div>
+              <ResponsiveContainer width="100%" height={260}>
+                <BarChart data={analytics?.salary_trends || []} barCategoryGap="30%">
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false}/>
+                  <XAxis dataKey="role" tick={{fontSize:11, fill:'#8b949e', fontFamily:'DM Sans'}} axisLine={false} tickLine={false} angle={-10} textAnchor="end" height={60}/>
+                  <YAxis tick={{fontSize:11, fill:'#8b949e', fontFamily:'DM Sans'}} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}k`}/>
+                  <Tooltip contentStyle={customTooltipStyle} cursor={{fill:'rgba(255,255,255,0.03)'}} formatter={v=>[`$${v.toLocaleString()}`, 'Avg Salary']}/>
+                  <Bar dataKey="avg_salary" fill="url(#barGrad)" radius={[8,8,0,0]}>
+                    <defs>
+                      <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#63ebda"/>
+                        <stop offset="100%" stopColor="#2dd4bf" stopOpacity={0.7}/>
+                      </linearGradient>
+                    </defs>
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Skills Pie Chart */}
+            <div className="dash-card" data-testid="skills-demand-card">
+              <div className="dash-card-title">Top Skills in Demand</div>
+              <div className="dash-card-sub">Market demand percentage</div>
+              <ResponsiveContainer width="100%" height={260}>
+                <PieChart>
+                  <Pie data={analytics?.top_skills || []} dataKey="demand" nameKey="skill"
+                    cx="50%" cy="50%" outerRadius={90} innerRadius={45}
+                    label={({skill, demand}) => `${skill} ${demand}%`}
+                    labelLine={{stroke:'rgba(255,255,255,0.15)'}}>
+                    {(analytics?.top_skills || []).map((_, index) => (
+                      <Cell key={index} fill={COLORS[index % COLORS.length]}/>
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={customTooltipStyle}/>
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Skills Detail */}
+          <div className="dash-card" style={{marginBottom:'20px'}} data-testid="skills-detail-card">
+            <div className="dash-card-title">Skills Demand Details</div>
+            <div className="dash-card-sub">Breakdown by market demand</div>
+            {analytics?.top_skills?.map((skill, idx) => (
+              <div key={idx} className="dash-skill-row" data-testid={`skill-detail-${idx}`}>
+                <div className="dash-skill-num"
+                  style={{background:`${COLORS[idx%COLORS.length]}15`,color:COLORS[idx%COLORS.length],border:`1px solid ${COLORS[idx%COLORS.length]}25`}}>
+                  {idx+1}
+                </div>
+                <span className="dash-skill-name">{skill.skill}</span>
+                <div className="dash-skill-bar-bg" style={{minWidth:'120px'}}>
+                  <div className="dash-skill-bar" style={{width:`${skill.demand}%`,background:COLORS[idx%COLORS.length]}}/>
+                </div>
+                <span className="dash-skill-pct">{skill.demand}%</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Badges */}
+          {analytics?.badges && analytics.badges.length > 0 && (
+            <div className="dash-badges" data-testid="badges-card">
+              <div className="dash-card-title" style={{marginBottom:'4px'}}>Achievements</div>
+              <div className="dash-card-sub">Badges you've unlocked</div>
+              <div>
+                {analytics.badges.map((badge, idx) => (
+                  <span key={idx} className="dash-badge-item" data-testid={`badge-${idx}`}>
+                    <span>🏆</span>
+                    <span className="dash-badge-text">{badge}</span>
+                  </span>
+                ))}
+                <span className="dash-badge-empty">
+                  <span className="dash-badge-empty-text">More badges unlocking...</span>
+                </span>
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+    </>
   );
 };
 

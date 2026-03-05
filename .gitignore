@@ -1,0 +1,103 @@
+# ===============================
+# 🔐 Environment Variables
+# ===============================
+.env
+.env.*
+*.env
+
+# ===============================
+# 🐍 Python / Backend
+# ===============================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Python build files
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Logs
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# ===============================
+# 📊 Datasets (optional ignore)
+# ===============================
+# If datasets are large/private keep ignored
+data/
+
+# ===============================
+# 🌐 Node / Frontend
+# ===============================
+node_modules/
+frontend/node_modules/
+
+# Build output
+dist/
+frontend/dist/
+build/
+
+# Vite cache
+.vite/
+
+# Node logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ===============================
+# 🧪 Testing & Coverage
+# ===============================
+.coverage
+htmlcov/
+.pytest_cache/
+
+# ===============================
+# 🗄 Database Files
+# ===============================
+*.db
+*.sqlite3
+
+# ===============================
+# 🖥 IDE & Editor Files
+# ===============================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.sw?
+
+# ===============================
+# 🖼 OS Files
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# 🚀 Deployment / Keys
+# ===============================
+*.pem
+*.key
+*.crt
+
+# ===============================
+# 🔒 Secret Configs
+# ===============================
+config.json
+secrets.json

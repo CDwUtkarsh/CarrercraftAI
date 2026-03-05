@@ -1,4 +1,5 @@
 import re
+import PyPDF2
 from textblob import TextBlob
 import nltk
 
@@ -16,13 +17,23 @@ except LookupError:
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
+def extract_text_from_pdf(file):
+    """Extract text from PDF file using PyPDF2"""
+    text = ""
+    pdf_reader = PyPDF2.PdfReader(file)
+
+    for page in pdf_reader.pages:
+        page_text = page.extract_text()
+        if page_text:
+            text += page_text + " "
+
+    return text
+
 # Common technical skills
 COMMON_SKILLS = [
-    'python', 'java', 'javascript', 'react', 'angular', 'vue', 'node',
-    'sql', 'mongodb', 'aws', 'azure', 'docker', 'kubernetes',
-    'machine learning', 'ai', 'data science', 'analytics',
-    'project management', 'agile', 'scrum', 'leadership',
-    'communication', 'problem solving', 'teamwork'
+    "python", "java", "c++", "machine learning", "data analysis",
+    "react", "node", "sql", "mongodb", "ai", "nlp",
+    "html", "css", "javascript", "flask", "django"
 ]
 
 # Biased words to detect
@@ -30,6 +41,43 @@ BIASED_WORDS = [
     'he', 'she', 'him', 'her', 'his', 'hers', 'male', 'female',
     'boy', 'girl', 'man', 'woman', 'gentleman', 'lady'
 ]
+
+def extract_text_from_pdf(file):
+    """Extract text from PDF file using PyPDF2"""
+    text = ""
+    pdf_reader = PyPDF2.PdfReader(file)
+
+    for page in pdf_reader.pages:
+        page_text = page.extract_text()
+        if page_text:
+            text += page_text + " "
+
+    return text
+
+def extract_resume_features(resume_text):
+    """Extract features from resume for ML model"""
+    text = resume_text.lower()
+
+    # Feature 1: Total words in resume
+    word_count = len(text.split())
+
+    # Feature 2: Skills detected
+    skills_found = [skill for skill in COMMON_SKILLS if skill in text]
+    skills_count = len(skills_found)
+
+    # Feature 3: Projects presence
+    projects = 1 if "project" in text else 0
+
+    # Feature 4: Education presence
+    education = 1 if ("b.tech" in text or "bachelor" in text or "degree" in text) else 0
+
+    # Feature 5: Experience presence
+    experience = 1 if ("experience" in text or "intern" in text) else 0
+
+    # Feature 6: Certifications (bonus smart feature)
+    certifications = 1 if ("certification" in text or "certificate" in text) else 0
+
+    return [word_count, skills_count, projects, education, experience, certifications]
 
 def extract_skills(text):
     """Extract skills from resume text"""
@@ -141,3 +189,25 @@ def analyze_resume(text):
         'bias_detected': bias,
         'improvement_tips': tips
     }
+
+def extract_resume_features(resume_text):
+    """Extract features from resume for ML model"""
+    text = resume_text.lower()
+
+    # Feature 1: Total words
+    word_count = len(text.split())
+
+    # Feature 2: Skills count
+    skills_found = [skill for skill in COMMON_SKILLS if skill in text]
+    skills_count = len(skills_found)
+
+    # Feature 3: Projects section detection
+    projects = 1 if "project" in text else 0
+
+    # Feature 4: Education detection
+    education = 1 if ("b.tech" in text or "bachelor" in text) else 0
+
+    # Feature 5: Experience detection
+    experience = 1 if ("experience" in text or "intern" in text) else 0
+
+    return [word_count, skills_count, projects, education, experience]

@@ -11,17 +11,19 @@ import CareerPredictor from '@/pages/CareerPredictor';
 import ResumeValidator from '@/pages/ResumeValidator';
 import JobRecommendations from '@/pages/JobRecommendations';
 import Dashboard from '@/pages/Dashboard';
-import Chatbot from '@/pages/chatbot';
-import Navbar from '@/components/Navbar';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+import Navbar from '@/components/Navbar';
+import AIAssistant from '@/components/ui/AIAssistant';
+
+// ✅ Vite uses import.meta.env, not process.env
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 export const API = `${BACKEND_URL}/api`;
 
 export const axiosInstance = axios.create({
   baseURL: API,
 });
 
-// Add token to requests
+// Add token to every request
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -30,7 +32,7 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle auth errors
+// Handle auth errors globally
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -49,9 +51,18 @@ function ProtectedRoute({ children }) {
 }
 
 function App() {
+  // ✅ Fixed: actually returns the parsed user + safe error handling
   const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem('user');
-    return storedUser ? JSON.parse(storedUser) : null;
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser || storedUser === 'undefined' || storedUser === 'null') {
+        return null;
+      }
+      return JSON.parse(storedUser);
+    } catch {
+      localStorage.removeItem('user'); // clear corrupted data
+      return null;
+    }
   });
 
   const handleLogout = () => {
@@ -66,8 +77,14 @@ function App() {
       <BrowserRouter>
         <Toaster position="top-right" />
         {user && <Navbar user={user} onLogout={handleLogout} />}
+
         <Routes>
-          <Route path="/login" element={<Login setUser={setUser} />} />
+          {/* Redirect to home if already logged in */}
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/" replace /> : <Login setUser={setUser} />}
+          />
+
           <Route
             path="/"
             element={
@@ -101,14 +118,6 @@ function App() {
             }
           />
           <Route
-            path="/chatbot"
-            element={
-              <ProtectedRoute>
-                <Chatbot />
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
@@ -116,7 +125,12 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Catch-all redirect */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+
+        {user && <AIAssistant />}
       </BrowserRouter>
     </div>
   );
